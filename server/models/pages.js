@@ -12,6 +12,7 @@ const CleanCSS = require('clean-css')
 const TurndownService = require('turndown')
 const turndownPluginGfm = require('@joplin/turndown-plugin-gfm').gfm
 const cheerio = require('cheerio')
+const webhook = require('../helpers/webhook')
 
 /* global WIKI */
 
@@ -353,6 +354,10 @@ module.exports = class Page extends Model {
     // -> Get latest updatedAt
     page.updatedAt = await WIKI.models.pages.query().findById(page.id).select('updatedAt').then(r => r.updatedAt)
 
+    // -> Webhook notification for create
+    webhook.pushWebhook(page.title, page.authorName, page.path)
+    WIKI.logger.info(JSON.stringify(page))
+
     return page
   }
 
@@ -471,6 +476,10 @@ module.exports = class Page extends Model {
 
     // -> Get latest updatedAt
     page.updatedAt = await WIKI.models.pages.query().findById(page.id).select('updatedAt').then(r => r.updatedAt)
+
+    // -> Webhook notification for update
+    webhook.pushWebhook(page.title, page.authorName, page.path, 'update')
+    WIKI.logger.info(JSON.stringify(page))
 
     return page
   }

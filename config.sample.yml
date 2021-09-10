@@ -127,3 +127,15 @@ ha: false
 # ---------------------------------------------------------------------
 # Writeable data path used for cache and temporary user uploads.
 dataPath: ./data
+
+# ---------------------------------------------------------------------
+# Webhooks
+# ---------------------------------------------------------------------
+# For notifications
+webhooks:
+  discord:
+#   - { WEBHOOK URL }
+#   - { WEBHOOK URL }
+  mastodon:
+#   baseurl: { BASE URL }
+#   token: { TOKEN }
